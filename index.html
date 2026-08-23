@@ -15,7 +15,7 @@
         }
 
         /* -------------------------------------------------- */
-        /* 1. PC 화면 기준 기본 설정 (기존 마우스 반응형 유지) */
+        /* 1. PC 화면 기준 설정 */
         /* -------------------------------------------------- */
         .bg-container {
             position: absolute;
@@ -25,13 +25,13 @@
             height: 110%;
             background-image: url('background.jpg');
             background-size: cover;
-            background-position: center top; /* PC에서는 간판 위주로 정렬 */
+            background-position: center top; 
             background-repeat: no-repeat;
             transition: transform 0.2s ease-out; 
             z-index: 1;
         }
 
-        /* 글자 레이아웃 설정 (우상단 정렬) */
+        /* 글자 레이아웃 설정 (PC에서는 우상단 정렬) */
         .content-layer {
             position: absolute;
             top: 0;
@@ -74,31 +74,32 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                /* 사진 비율을 모바일 화면 가로에 꽉 맞추어 잘림을 최소화합니다 */
                 background-size: contain; 
-                /* 카페 전경과 매장 내부가 다 보이도록 사진 하단을 중심으로 배치 */
+                /* 모바일에서 전경이 잘 보이도록 중심 설정 */
                 background-position: center bottom; 
                 background-color: #000000;
-                transition: none; /* 모바일에서 어지러움을 유발하는 움직임 제거 */
+                transition: none; 
             }
 
             .content-layer {
-                /* 모바일에서는 글자를 화면 아래쪽 중앙에 배치해 안정감을 줍니다 */
+                /* ★ 모바일에서 글자를 화면 맨 위(상단) 중앙으로 배치 */
                 justify-content: center;
-                align-items: flex-end;
-                padding-top: 0;
+                align-items: flex-start;
+                padding-top: 40px; /* 상단 여백 추가 */
                 padding-right: 0;
-                padding-bottom: 60px; /* 바닥에서 약간 띄움 */
+                padding-bottom: 0; 
             }
 
             .title-box {
                 text-align: center;
+                width: 90%; /* 줄바꿈이 자연스럽도록 너비 지정 */
             }
 
             h1 {
-                /* 작은 화면에 맞춰 글씨 크기를 아담하게 조정 */
-                font-size: 1.1rem; 
+                /* 새로운 문구에 맞춰 모바일 글씨 크기 최적화 */
+                font-size: 1.15rem; 
                 letter-spacing: 1px;
+                line-height: 1.6; /* 두 줄로 나뉠 때를 위한 줄간격 */
             }
         }
 
@@ -116,7 +117,8 @@
     <!-- 글자 레이어 -->
     <div class="content-layer">
         <div class="title-box">
-            <h1>언제나 담담하게 늘 그래왔듯</h1>
+            <!-- ★ 요청하신 새로운 안내 멘트로 교체했습니다 -->
+            <h1>월향재 웹 공간을 마련중입니다. 곧 만나요~</h1>
         </div>
     </div>
 
@@ -124,7 +126,6 @@
         const bg = document.getElementById('background');
         const sensitivity = 25; 
 
-        // PC 마우스 움직임 이벤트 (모바일이 아닐 때만 작동하도록 가로폭 체크)
         document.addEventListener('mousemove', (e) => {
             if (window.innerWidth > 768) {
                 const x = (e.clientX / window.innerWidth) - 0.5;
@@ -133,10 +134,9 @@
             }
         });
 
-        // 스마트폰 자이로 센서 이벤트
         if (window.DeviceOrientationEvent) {
             window.addEventListener('deviceorientation', (e) => {
-                if (window.innerWidth > 768) { // 필요 시 PC/태블릿 환경 전용 유지
+                if (window.innerWidth > 768) {
                     let x = e.gamma; 
                     let y = e.beta;  
                     if (x > 30) x = 30; if (x < -30) x = -30;
