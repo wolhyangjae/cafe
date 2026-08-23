@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>월향재</title>
     <style>
-        /* 화면 전체 스크롤바를 숨겨서 깔끔하게 만듭니다 */
         html, body {
             margin: 0;
             padding: 0;
@@ -17,42 +16,32 @@
 
         body {
             background-image: url('background.jpg');
-            /* 사진이 위아래로 움직일 수 있도록 세로 크기를 화면의 130%로 여유 있게 키웁니다 */
             background-size: cover;
             background-repeat: no-repeat;
             
-            /* 글자 박스를 오른쪽 아래(우하단)로 정렬하기 위한 설정 */
             display: flex;
-            justify-content: flex-end; 
-            align-items: flex-end;     
+            justify-content: flex-end; /* 가로 기준: 오른쪽 정렬 */
+            align-items: flex-start;   /* ★ 세로 기준: 위쪽 정렬로 변경 (flex-end에서 변경) */
             
-            /* 오른쪽과 바닥에서 떨어질 여백 공간 */
+            /* ★ 위쪽과 오른쪽에서 떨어질 여백 공간 (상단 50px, 우측 50px) */
+            padding-top: 50px;
             padding-right: 50px;
-            padding-bottom: 50px;  
             box-sizing: border-box;
 
-            /* 배경사진 애니메이션 속도를 5배인 40초로 늘려 아주 천천히 움직이게 만듭니다 */
             animation: moveBackgroundDown 40s linear forwards;
         }
 
-        /* 사진 스크롤 방향을 거꾸로 (위 0%에서 시작해서 아래 100%로 천천히 하강) */
         @keyframes moveBackgroundDown {
-            0% {
-                background-position: center 0%;   /* 가장 위쪽 사진 영역 (간판 중심) */
-            }
-            100% {
-                background-position: center 100%; /* 가장 아래쪽 사진 영역 (매장 내부 중심) */
-            }
+            0% { background-position: center 0%; }
+            100% { background-position: center 100%; }
         }
 
-        /* 오른쪽 구석에 조그마하게 다듬은 투명한 타이틀 박스 */
         .title-box {
             background-color: transparent; 
             border: none;                  
             box-shadow: none;              
             text-align: right;
             
-            /* 글자가 부드럽게 나타나는 효과 */
             animation: fadeInText 6s ease-in-out forwards;
             opacity: 0;
         }
@@ -63,20 +52,18 @@
             letter-spacing: 2px; 
             font-family: 'Gungsuh', 'GungsuhChe', '궁서', 'Batang', serif;
             color: #ffffff;
-            
-            /* 글자가 선명하게 보이도록 은은한 검은 음영 유지 */
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9); 
         }
 
         @keyframes fadeInText {
-            0% { opacity: 0; transform: translateY(5px); }
+            0% { opacity: 0; transform: translateY(-5px); } /* 위에서 아래로 살짝 내려오며 등장 */
             100% { opacity: 0.85; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <!-- 화면 오른쪽 아래에 표시될 투명한 궁서체 문구 -->
+    <!-- 화면 오른쪽 위에 표시될 투명한 궁서체 문구 -->
     <div class="title-box">
         <h1>언제나 담담하게 늘 그래왔듯</h1>
     </div>
