@@ -41,39 +41,69 @@
             }
         }
 
-        /* ★ 글자 레이아웃을 '가운데 정렬(center)'로 변경 */
-        .content-layer {
+        /* 공통 텍스트 스타일 지정 (궁서체 및 그림자 효과) */
+        h1, h2 {
+            margin: 0;
+            font-family: 'Gungsuh', 'GungsuhChe', '궁서', 'Batang', serif;
+            color: #ffffff;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 1); 
+        }
+
+        /* [레이어 A] 상단 양쪽 배치를 위한 레이어 */
+        .top-content-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between; 
+            align-items: flex-start;        
+            padding: 50px;
+            box-sizing: border-box;
+            z-index: 3; /* 중앙 가사보다 살짝 위에 위치 */
+        }
+
+        /* [레이어 B] 화면 정중앙 배치를 위한 레이어 */
+        .center-content-layer {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             display: flex;
-            justify-content: center; /* ★ 가로 기준: 정중앙 정렬 */
-            align-items: center;     /* ★ 세로 기준: 정중앙 정렬 */
+            justify-content: center; 
+            align-items: center;     
             box-sizing: border-box;
             z-index: 2;
             padding: 20px;
         }
 
-        /* 배경색 없이 투명하고 은은하게 등장하는 텍스트 박스 */
+        /* 애니메이션이 탑재된 투명 텍스트 박스 */
         .title-box {
             background-color: transparent; 
             border: none;                  
             box-shadow: none;              
-            text-align: center;      /* ★ 텍스트 중앙 정렬 */
-            animation: fadeInText 5s ease-in-out forwards;
+            animation: fadeInText 4s ease-in-out forwards;
             opacity: 0;
         }
 
-        h1 {
-            margin: 0;
-            font-size: 1.4rem;       /* 시적인 감성을 담아 차분한 크기로 조정 */
-            letter-spacing: 3px;     /* 글자 사이 여백을 주어 여운을 표현 */
-            font-family: 'Gungsuh', 'GungsuhChe', '궁서', 'Batang', serif;
-            color: #ffffff;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 1); /* 어두운 밤하늘에서 글씨가 더 돋보이도록 음영 강화 */
-            line-height: 2.2;        /* ★ 가사 각 줄이 겹치지 않고 정갈하게 보이도록 줄간격 넓힘 */
+        .left-box { text-align: left; }
+        .right-box { text-align: right; }
+        .center-box { text-align: center; animation-duration: 5s; }
+
+        /* 상단 양옆 폰트 크기 및 간격 */
+        .top-content-layer h2 {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            line-height: 1.6;
+            font-weight: normal;
+        }
+
+        /* 중앙 가성 전용 폰트 크기 및 간격 */
+        .center-content-layer h1 {
+            font-size: 1.4rem;       
+            letter-spacing: 3px;     
+            line-height: 2.2;        
         }
 
         /* -------------------------------------------------- */
@@ -92,23 +122,40 @@
                 animation: none; 
             }
 
-            .content-layer {
-                /* 모바일에서도 중앙 정렬을 유지하되, 하단 간판을 가리지 않도록 상단으로 살짝 올림 */
-                justify-content: center;
+            /* 모바일에서는 상단 양옆 레이어를 세로로 정렬해 가독성을 높입니다 */
+            .top-content-layer {
+                flex-direction: column; 
+                justify-content: flex-start;
                 align-items: flex-start;
-                padding-top: 50px;
+                padding-top: 35px;
+                padding-left: 20px;
+                padding-right: 20px;
             }
 
-            h1 {
+            .top-content-layer .title-box {
+                width: 100%;
+                text-align: left; 
+            }
+
+            .top-content-layer .right-box {
+                margin-top: 10px; 
+            }
+
+            /* 모바일에서 중앙 가사는 간판과 겹치지 않도록 빈 공간으로 배치 */
+            .center-content-layer {
+                display: none; /* 스마트폰의 좁은 세로 화면에서는 가사를 숨겨 전경을 보호합니다 */
+            }
+
+            .top-content-layer h2 {
                 font-size: 1.05rem; 
                 letter-spacing: 1px;
-                line-height: 2.0; /* 모바일 전용 줄간격 */
+                line-height: 1.4;
             }
         }
 
         @keyframes fadeInText {
-            0% { opacity: 0; transform: scale(0.98); } /* 잔잔하게 스르륵 커지며 등장 */
-            100% { opacity: 0.9; transform: scale(1); }
+            0% { opacity: 0; transform: translateY(-5px); }
+            100% { opacity: 0.85; transform: translateY(0); }
         }
     </style>
 </head>
@@ -117,10 +164,22 @@
     <!-- 배경 사진 레이어 -->
     <div class="bg-container" id="background"></div>
 
-    <!-- 글자 레이어 (화면 중앙 배치) -->
-    <div class="content-layer">
-        <div class="title-box">
-            <!-- ★ 요청하신 소중한 가사 문구를 자연스러운 줄바꿈(<br>)으로 나누어 반영했습니다 -->
+    <!-- [레이어 A] 상단 양쪽 멘트 영역 -->
+    <div class="top-content-layer">
+        <!-- 왼쪽 상단 원래 문구 -->
+        <div class="title-box left-box">
+            <h2>언제나 담담하게 늘 그래왔듯</h2>
+        </div>
+        
+        <!-- 오른쪽 상단 원래 문구 -->
+        <div class="title-box right-box">
+            <h2>월향재 웹 공간을 마련중입니다.<br>우리 곧 만나요~</h2>
+        </div>
+    </div>
+
+    <!-- [레이어 B] 화면 정중앙 감성 가사 영역 -->
+    <div class="center-content-layer">
+        <div class="title-box center-box">
             <h1>
                 그런 슬픈 표정하지 말아요<br>
                 난 포기하지 않아요<br>
