@@ -12,8 +12,12 @@
             height: 100%;
             overflow: hidden; 
             background-color: #000000;
+            cursor: pointer; /* 클릭하면 음악이 나온다는 것을 안내하기 위해 마우스 포인터 손모양으로 변경 */
         }
 
+        /* -------------------------------------------------- */
+        /* 1. PC 화면 기준 설정 */
+        /* -------------------------------------------------- */
         .bg-container {
             position: absolute;
             width: 110%;
@@ -28,7 +32,6 @@
             animation: pcBackgroundScrollUp 6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-
         @keyframes pcBackgroundScrollUp {
             0% {
                 top: -5%; 
@@ -40,14 +43,12 @@
             }
         }
 
-
         h1, h2 {
             margin: 0;
             font-family: 'Gungsuh', 'GungsuhChe', '궁서', 'Batang', serif;
             color: #ffffff;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 1); 
         }
-
 
         .top-content-layer {
             position: absolute;
@@ -61,7 +62,6 @@
             box-sizing: border-box;
             z-index: 3; 
         }
-
 
         .center-content-layer {
             position: absolute;
@@ -89,7 +89,6 @@
         .right-box { text-align: right; }
         .center-box { text-align: center; animation-duration: 5s; }
 
-
         .top-content-layer h2 {
             font-size: 1.3rem;
             letter-spacing: 2px;
@@ -97,29 +96,27 @@
             font-weight: normal;
         }
 
-
         .center-content-layer h1 {
             font-size: 1.4rem;       
             letter-spacing: 3px;     
             line-height: 2.2;        
         }
 
-
+        /* -------------------------------------------------- */
+        /* 2. 스마트폰(모바일) 화면 전용 설정 (화면 가로 768px 이하) */
+        /* -------------------------------------------------- */
         @media (max-width: 768px) {
             .bg-container {
                 top: 0 !important;
                 left: 0 !important;
                 width: 100% !important;
                 height: 100% !important;
-
                 background-size: cover; 
-  
                 background-position: center 85%; 
                 background-color: #000000;
                 transition: none; 
                 animation: none;
             }
-
 
             .top-content-layer {
                 flex-direction: column; 
@@ -138,7 +135,6 @@
             .top-content-layer .right-box {
                 margin-top: 10px; 
             }
-
 
             .center-content-layer {
                 display: flex; 
@@ -169,30 +165,31 @@
 </head>
 <body>
 
+    <!-- ★ 배경 음악 오디오 태그 추가 (반복재생 설정) -->
+    <audio id="bgm" src="sad.mp3" loop></audio>
 
+    <!-- 배경 사진 레이어 -->
     <div class="bg-container" id="background"></div>
 
-
+    <!-- [레이어 A] 상단 양쪽 멘트 영역 -->
     <div class="top-content-layer">
-
         <div class="title-box left-box">
             <h2>언제나 담담하게 늘 그래왔듯</h2>
         </div>
         
-
         <div class="title-box right-box">
             <h2>월향재 웹 공간을 마련중입니다.<br>우리 곧 만나요~</h2>
         </div>
     </div>
 
-
+    <!-- [레이어 B] 화면 정중앙 감성 가사 영역 -->
     <div class="center-content-layer">
         <div class="title-box center-box">
             <h1>
                 그런 슬픈 표정하지 말아요<br>
                 난 포기하지 않아요.<br>
                 그대도 우리들의 만남에 후횐 없겠죠<br>
-                어렵고도 헙한길을 걸어도<br>
+                어렵고도 험한길을 걸어도<br>
                 나는 그대를 사랑해요~
             </h1>
         </div>
@@ -200,7 +197,15 @@
 
     <script>
         const bg = document.getElementById('background');
+        const bgm = document.getElementById('bgm');
         const sensitivity = 25; 
+
+        // ★ 브라우저 자동재생 제한을 우회하기 위해 첫 클릭/터치 시 음악 재생
+        document.addEventListener('click', () => {
+            if (bgm.paused) {
+                bgm.play().catch(err => console.log("오디오 재생 실패:", err));
+            }
+        }, { once: true }); // 딱 한 번만 실행되도록 설정
 
         document.addEventListener('mousemove', (e) => {
             if (window.innerWidth > 768) {
