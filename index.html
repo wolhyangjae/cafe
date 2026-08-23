@@ -12,12 +12,10 @@
             height: 100%;
             overflow: hidden; 
             background-color: #000000;
-            cursor: pointer; /* 클릭하면 음악이 나온다는 것을 안내하기 위해 마우스 포인터 손모양으로 변경 */
+            cursor: pointer; 
         }
 
-        /* -------------------------------------------------- */
-        /* 1. PC 화면 기준 설정 */
-        /* -------------------------------------------------- */
+
         .bg-container {
             position: absolute;
             width: 110%;
@@ -102,9 +100,7 @@
             line-height: 2.2;        
         }
 
-        /* -------------------------------------------------- */
-        /* 2. 스마트폰(모바일) 화면 전용 설정 (화면 가로 768px 이하) */
-        /* -------------------------------------------------- */
+
         @media (max-width: 768px) {
             .bg-container {
                 top: 0 !important;
@@ -165,13 +161,13 @@
 </head>
 <body>
 
-    <!-- ★ 배경 음악 오디오 태그 추가 (반복재생 설정) -->
+
     <audio id="bgm" src="Sad.mp3" loop></audio>
 
-    <!-- 배경 사진 레이어 -->
+
     <div class="bg-container" id="background"></div>
 
-    <!-- [레이어 A] 상단 양쪽 멘트 영역 -->
+
     <div class="top-content-layer">
         <div class="title-box left-box">
             <h2>언제나 담담하게 늘 그래왔듯</h2>
@@ -182,7 +178,7 @@
         </div>
     </div>
 
-    <!-- [레이어 B] 화면 정중앙 감성 가사 영역 -->
+
     <div class="center-content-layer">
         <div class="title-box center-box">
             <h1>
@@ -200,12 +196,12 @@
         const bgm = document.getElementById('bgm');
         const sensitivity = 25; 
 
-        // ★ 브라우저 자동재생 제한을 우회하기 위해 첫 클릭/터치 시 음악 재생
+
         document.addEventListener('click', () => {
             if (bgm.paused) {
                 bgm.play().catch(err => console.log("오디오 재생 실패:", err));
             }
-        }, { once: true }); // 딱 한 번만 실행되도록 설정
+        }, { once: true }); 
 
         document.addEventListener('mousemove', (e) => {
             if (window.innerWidth > 768) {
