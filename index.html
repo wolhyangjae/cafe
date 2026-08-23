@@ -31,7 +31,6 @@
             z-index: 1;
         }
 
-        /* 양쪽 끝 배치를 위해 space-between으로 레이아웃 수정 */
         .content-layer {
             position: absolute;
             top: 0;
@@ -39,8 +38,8 @@
             width: 100%;
             height: 100%;
             display: flex;
-            justify-content: space-between; /* ★ 왼쪽과 오른쪽 끝으로 자동 분산 */
-            align-items: flex-start;        /* 상단 정렬 */
+            justify-content: space-between; 
+            align-items: flex-start;        
             padding-top: 50px;
             padding-left: 50px;
             padding-right: 50px;
@@ -56,18 +55,17 @@
             opacity: 0;
         }
 
-        /* 왼쪽 박스용 정렬 */
         .left-box { text-align: left; }
-        /* 오른쪽 박스용 정렬 */
         .right-box { text-align: right; }
 
         h1 {
             margin: 0;
-            font-size: 1.3rem; /* 양쪽에 배치되므로 글자 크기를 살짝 다듬었습니다 */
+            font-size: 1.3rem; 
             letter-spacing: 2px; 
             font-family: 'Gungsuh', 'GungsuhChe', '궁서', 'Batang', serif;
             color: #ffffff;
             text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9); 
+            line-height: 1.6; /* 줄바꿈되었을 때 위아래 간격을 시원하게 띄움 */
         }
 
         /* -------------------------------------------------- */
@@ -86,7 +84,6 @@
             }
 
             .content-layer {
-                /* 모바일 좁은 화면에서는 양옆 배치가 겹칠 수 있으므로 세로로 정렬 */
                 flex-direction: column; 
                 justify-content: flex-start;
                 align-items: flex-start;
@@ -97,18 +94,17 @@
 
             .title-box {
                 width: 100%;
-                text-align: left; /* 모바일에서도 왼쪽 정렬 유지 */
+                text-align: left; 
             }
 
-            /* 모바일에서 두 문구 사이에 자연스러운 세로 간격 추가 */
             .right-box {
-                margin-top: 10px; 
+                margin-top: 15px; /* 모바일에서 두 문구 간격 자연스럽게 벌림 */
             }
 
             h1 {
                 font-size: 1.05rem; 
                 letter-spacing: 1px;
-                line-height: 1.4;
+                line-height: 1.5;
             }
         }
 
@@ -125,14 +121,15 @@
 
     <!-- 글자 레이어 -->
     <div class="content-layer">
-        <!-- 왼쪽 문구 박스 -->
+        <!-- 왼쪽 문구 박스 (원래 원하셨던 한 줄 형태 유지) -->
         <div class="title-box left-box">
             <h1>언제나 담담하게 늘 그래왔듯</h1>
         </div>
         
-        <!-- 오른쪽 문구 박스 -->
+        <!-- 오른쪽 문구 박스 (원하셨던 구간만 다음 줄로 개행) -->
         <div class="title-box right-box">
-            <h1>월향재 웹 공간을 마련중입니다. 곧 만나요~</h1>
+            <!-- ★ <br> 태그를 이용해 '우리 곧 만나요~'만 다음 줄로 내렸습니다 -->
+            <h1>월향재 웹 공간을 마련중입니다.<br>우리 곧 만나요~</h1>
         </div>
     </div>
 
