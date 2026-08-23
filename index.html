@@ -14,26 +14,36 @@
             background-color: #000000;
         }
 
-        body {
+        /* 사진이 움직일 때 여백(흰 공간)이 보이지 않도록 화면보다 10% 더 크게 설정합니다 */
+        .bg-container {
+            position: absolute;
+            top: -5%;
+            left: -5%;
+            width: 110%;
+            height: 110%;
             background-image: url('background.jpg');
             background-size: cover;
+            background-position: center;
             background-repeat: no-repeat;
-            
+            /* 움직임이 딱딱하지 않고 부드럽게 이어지도록 하는 효과 */
+            transition: transform 0.2s ease-out; 
+            z-index: 1;
+        }
+
+        /* 글자 레이아웃 설정 (오른쪽 위 정렬) */
+        .content-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
-            justify-content: flex-end; /* 가로 기준: 오른쪽 정렬 */
-            align-items: flex-start;   /* ★ 세로 기준: 위쪽 정렬로 변경 (flex-end에서 변경) */
-            
-            /* ★ 위쪽과 오른쪽에서 떨어질 여백 공간 (상단 50px, 우측 50px) */
+            justify-content: flex-end; 
+            align-items: flex-start;   
             padding-top: 50px;
             padding-right: 50px;
             box-sizing: border-box;
-
-            animation: moveBackgroundDown 40s linear forwards;
-        }
-
-        @keyframes moveBackgroundDown {
-            0% { background-position: center 0%; }
-            100% { background-position: center 100%; }
+            z-index: 2; /* 사진보다 위에 보이도록 설정 */
         }
 
         .title-box {
@@ -41,8 +51,7 @@
             border: none;                  
             box-shadow: none;              
             text-align: right;
-            
-            animation: fadeInText 6s ease-in-out forwards;
+            animation: fadeInText 4s ease-in-out forwards;
             opacity: 0;
         }
 
@@ -52,21 +61,63 @@
             letter-spacing: 2px; 
             font-family: 'Gungsuh', 'GungsuhChe', '궁서', 'Batang', serif;
             color: #ffffff;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9); 
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9); 
         }
 
         @keyframes fadeInText {
-            0% { opacity: 0; transform: translateY(-5px); } /* 위에서 아래로 살짝 내려오며 등장 */
+            0% { opacity: 0; transform: translateY(-5px); }
             100% { opacity: 0.85; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <!-- 화면 오른쪽 위에 표시될 투명한 궁서체 문구 -->
-    <div class="title-box">
-        <h1>언제나 담담하게 늘 그래왔듯</h1>
+    <!-- 배경 사진 레이어 -->
+    <div class="bg-container" id="background"></div>
+
+    <!-- 글자 레이어 -->
+    <div class="content-layer">
+        <div class="title-box">
+            <h1>언제나 담담하게 늘 그래왔듯</h1>
+        </div>
     </div>
 
+    <!-- 마우스 및 스마트폰 움직임을 감지하는 자바스크립트 소스 -->
+    <script>
+        const bg = document.getElementById('background');
+        
+        // 민감도 조절 (숫자가 클수록 사진이 더 많이 움직입니다)
+        const sensitivity = 25; 
+
+        // 1. PC 마우스 움직임 감지
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+            
+            // 마우스 반대 방향으로 사진을 부드럽게 이동시킴
+            bg.style.transform = `translate(${x * -sensitivity}px, ${y * -sensitivity}px)`;
+        });
+
+        // 2. 스마트폰 기울기(자이로 센서) 감지
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', (e) => {
+                // 스마트폰의 좌우(gamma), 위아래(beta) 기울기 값 계산
+                let x = e.gamma; // -90 ~ 90
+                let y = e.beta;  // -180 ~ 180
+
+                // 폰을 너무 꺾었을 때를 방지하기 위해 최대 각도 제한
+                if (x > 30) x = 30;
+                if (x < -30) x = -30;
+                if (y > 30) y = 30;
+                if (y < -30) y = -30;
+
+                // 각도를 비율로 변환하여 사진 이동
+                const moveX = (x / 30) * (sensitivity / 2);
+                const moveY = (y / 30) * (sensitivity / 2);
+
+                bg.style.transform = `translate(${-moveX}px, ${-moveY}px)`;
+            });
+        }
+    </script>
 </body>
 </html>
