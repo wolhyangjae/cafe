@@ -27,21 +27,23 @@
             background-repeat: no-repeat;
             transition: transform 0.2s ease-out; 
             z-index: 1;
+            /* ★ PC 전용: 6초 동안 아래에서 위로 천천히 올라오는 애니메이션 적용 */
             animation: pcBackgroundScrollUp 6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
+        /* 사진의 아랫부분(매장 전경)이 자연스럽게 올라와 안착하도록 애니메이션 설정 */
         @keyframes pcBackgroundScrollUp {
             0% {
                 top: -5%; 
-                background-position: center bottom; 
+                background-position: center bottom; /* 아랫부분 조명부터 시작 */
             }
             100% {
                 top: -5%;
-                background-position: center 65%;   
+                background-position: center 65%;   /* 카페 전경이 가장 아름답게 보이는 지점 */
             }
         }
 
-        /* 공통 텍스트 스타일 지정 (궁서체 및 그림자 효과) */
+        /* 공통 텍스트 스타일 (궁서체 및 그림자 효과) */
         h1, h2 {
             margin: 0;
             font-family: 'Gungsuh', 'GungsuhChe', '궁서', 'Batang', serif;
@@ -60,10 +62,10 @@
             align-items: flex-start;        
             padding: 50px;
             box-sizing: border-box;
-            z-index: 3; /* 중앙 가사보다 살짝 위에 위치 */
+            z-index: 3; 
         }
 
-        /* [레이어 B] 화면 정중앙 배치를 위한 레이어 */
+        /* [레이어 B] 화면 정중앙 가사 배치를 위한 레이어 */
         .center-content-layer {
             position: absolute;
             top: 0;
@@ -78,7 +80,6 @@
             padding: 20px;
         }
 
-        /* 애니메이션이 탑재된 투명 텍스트 박스 */
         .title-box {
             background-color: transparent; 
             border: none;                  
@@ -91,15 +92,15 @@
         .right-box { text-align: right; }
         .center-box { text-align: center; animation-duration: 5s; }
 
-        /* 상단 양옆 폰트 크기 및 간격 */
+        /* 상단 멘트 폰트 스타일 */
         .top-content-layer h2 {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             letter-spacing: 2px;
             line-height: 1.6;
             font-weight: normal;
         }
 
-        /* 중앙 가성 전용 폰트 크기 및 간격 */
+        /* 중앙 가사 폰트 스타일 */
         .center-content-layer h1 {
             font-size: 1.4rem;       
             letter-spacing: 3px;     
@@ -115,14 +116,16 @@
                 left: 0 !important;
                 width: 100% !important;
                 height: 100% !important;
-                background-size: contain; 
-                background-position: center bottom; 
+                /* ★ 모바일 검은 여백을 없애고 화면을 사진으로 꽉 채웁니다 */
+                background-size: cover; 
+                /* ★ 하단 매장 조명과 전경이 스마트폰 중앙에 시원하게 정렬되도록 수정 */
+                background-position: center 85%; 
                 background-color: #000000;
                 transition: none; 
-                animation: none; 
+                animation: none; /* 모바일은 자동 스크롤 제외 */
             }
 
-            /* 모바일에서는 상단 양옆 레이어를 세로로 정렬해 가독성을 높입니다 */
+            /* 모바일 상단 멘트 정렬 */
             .top-content-layer {
                 flex-direction: column; 
                 justify-content: flex-start;
@@ -141,15 +144,25 @@
                 margin-top: 10px; 
             }
 
-            /* 모바일에서 중앙 가사는 간판과 겹치지 않도록 빈 공간으로 배치 */
+            /* ★ 모바일에서도 가사가 정중앙 밤하늘 영역에 깔끔하게 보이도록 활성화 */
             .center-content-layer {
-                display: none; /* 스마트폰의 좁은 세로 화면에서는 가사를 숨겨 전경을 보호합니다 */
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                transform: translateY(-130px); /* 간판 조명과 겹치지 않게 위로 살짝 이동 */
             }
 
             .top-content-layer h2 {
                 font-size: 1.05rem; 
                 letter-spacing: 1px;
-                line-height: 1.4;
+                line-height: 1.5;
+            }
+
+            .center-content-layer h1 {
+                font-size: 1.05rem; 
+                letter-spacing: 1px;
+                line-height: 1.9;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 1), -1px -1px 4px rgba(0, 0, 0, 1);
             }
         }
 
@@ -166,26 +179,24 @@
 
     <!-- [레이어 A] 상단 양쪽 멘트 영역 -->
     <div class="top-content-layer">
-        <!-- 왼쪽 상단 원래 문구 -->
+        <!-- 왼쪽 상단 멘트 -->
         <div class="title-box left-box">
             <h2>언제나 담담하게 늘 그래왔듯</h2>
         </div>
         
-        <!-- 오른쪽 상단 원래 문구 -->
+        <!-- 오른쪽 상단 멘트 -->
         <div class="title-box right-box">
             <h2>월향재 웹 공간을 마련중입니다.<br>우리 곧 만나요~</h2>
         </div>
     </div>
 
-    <!-- [레이어 B] 화면 정중앙 감성 가사 영역 -->
+    <!-- [레이어 B] 화면 정중앙 가사 영역 -->
     <div class="center-content-layer">
         <div class="title-box center-box">
             <h1>
                 그런 슬픈 표정하지 말아요<br>
-                난 포기하지 않아요<br>
-                그대도 우리들의 만남에 후횐 없겠죠<br>
-                어렵고도 험한길을 걸어도<br>
-                나는 그대를 사랑해요~
+                난 포기하지 않아요.<br>
+                그대도 우리들의 만남에 후횐 없겠죠
             </h1>
         </div>
     </div>
